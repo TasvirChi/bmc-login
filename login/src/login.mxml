@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()" layout="absolute"
-				preloader="com.kaltura.preloaders.KmcPreloader" backgroundColor="#034F57" horizontalScrollPolicy="off"
+				preloader="com.borhan.preloaders.BmcPreloader" backgroundColor="#034F57" horizontalScrollPolicy="off"
 				verticalScrollPolicy="off" backgroundAlpha="0" backgroundGradientAlphas="0,0"
-				xmlns:components="com.pfp.components.*" xmlns:text="com.kaltura.controls.text.*">
-	<mx:Style source="assets/kaltura.css"/>
+				xmlns:components="com.pfp.components.*" xmlns:text="com.borhan.controls.text.*">
+	<mx:Style source="assets/borhan.css"/>
 
 	<mx:Metadata>
 		[ResourceBundle("login")]
@@ -11,20 +11,20 @@
 
 	<mx:Script>
 		<![CDATA[
-			import com.kaltura.KalturaClient;
-			import com.kaltura.analytics.GoogleAnalyticsConsts;
-			import com.kaltura.analytics.GoogleAnalyticsTracker;
-			import com.kaltura.analytics.KAnalyticsTracker;
-			import com.kaltura.commands.MultiRequest;
-			import com.kaltura.commands.adminUser.AdminUserSetInitialPassword;
-			import com.kaltura.commands.adminUser.AdminUserUpdatePassword;
-			import com.kaltura.commands.user.UserGetByLoginId;
-			import com.kaltura.commands.user.UserLoginByLoginId;
-			import com.kaltura.commands.user.UserResetPassword;
-			import com.kaltura.config.KalturaConfig;
-			import com.kaltura.events.KalturaEvent;
-			import com.kaltura.types.KalturaStatsKmcEventType;
-			import com.kaltura.utils.KUtils;
+			import com.borhan.BorhanClient;
+			import com.borhan.analytics.GoogleAnalyticsConsts;
+			import com.borhan.analytics.GoogleAnalyticsTracker;
+			import com.borhan.analytics.KAnalyticsTracker;
+			import com.borhan.commands.MultiRequest;
+			import com.borhan.commands.adminUser.AdminUserSetInitialPassword;
+			import com.borhan.commands.adminUser.AdminUserUpdatePassword;
+			import com.borhan.commands.user.UserGetByLoginId;
+			import com.borhan.commands.user.UserLoginByLoginId;
+			import com.borhan.commands.user.UserResetPassword;
+			import com.borhan.config.BorhanConfig;
+			import com.borhan.events.BorhanEvent;
+			import com.borhan.types.BorhanStatsBmcEventType;
+			import com.borhan.utils.KUtils;
 			
 			import mx.controls.Alert;
 			import mx.events.ValidationResultEvent;
@@ -66,7 +66,7 @@
 			/**
 			 * client for posting API_v3 calls
 			 * */
-			private var _kc:KalturaClient;
+			private var _kc:BorhanClient;
 
 			[Bindable]
 			/**
@@ -78,7 +78,7 @@
 			/**
 			 * dommain for partnerservices2 calls
 			 * */
-			private var _domain:String = "www.kaltura.com";
+			private var _domain:String = "www.borhan.com";
 
 			/**
 			 * users coming form registration email will have a hash
@@ -106,14 +106,14 @@
 				_protocol = getLoadingProtocol();
 
 				// create client for API_v3 calls
-				var configuration:KalturaConfig = new KalturaConfig();
+				var configuration:BorhanConfig = new BorhanConfig();
 				configuration.protocol = _protocol;
 				configuration.domain = KUtils.hostFromCode(parameters.host);
 				configuration.srvUrl = parameters.srvurl;
-				_kc = new KalturaClient(configuration);
+				_kc = new BorhanClient(configuration);
 
 				// add context menu item
-				var item:ContextMenuItem = new ContextMenuItem("KMC LOGIN VERSION " + VERSION);
+				var item:ContextMenuItem = new ContextMenuItem("BMC LOGIN VERSION " + VERSION);
 				contextMenu.customItems.push(item);
 
 				// app parameters:
@@ -140,7 +140,7 @@
 
 				setLocaleByParams();
 
-				_loginSO = SharedObject.getLocal("KMCuser");
+				_loginSO = SharedObject.getLocal("BMCuser");
 				if (_loginSO.data.loginName) {
 					// assume this happens after email.creationComplete 
 					email.text = _loginSO.data.loginName; 
@@ -222,7 +222,7 @@
 				//First request to login will return the KS
 				var ulblId:UserLoginByLoginId = new UserLoginByLoginId(params.email, params.password, int.MIN_VALUE, 86400/*24 hrs*/, "disableentitlement");
 
-				//The second call will return the user data needed for the KMC
+				//The second call will return the user data needed for the BMC
 				var ugblId:UserGetByLoginId = new UserGetByLoginId(params.email);
 
 				mr.addAction(ulblId);
@@ -230,17 +230,17 @@
 
 				mr.addRequestParam("2:ks", "{1:result}");
 
-				mr.addEventListener(KalturaEvent.COMPLETE, onLoginResult);
-				mr.addEventListener(KalturaEvent.FAILED, onLoginFault);
+				mr.addEventListener(BorhanEvent.COMPLETE, onLoginResult);
+				mr.addEventListener(BorhanEvent.FAILED, onLoginFault);
 
 				_kc.post(mr);
 			}
 
 
 			/**
-			 * On a successful login extract the ks an initiate the KMC via JS else alert
+			 * On a successful login extract the ks an initiate the BMC via JS else alert
 			 * */
-			private function onLoginResult(event:KalturaEvent):void {
+			private function onLoginResult(event:BorhanEvent):void {
 				var errorXml:XML = new XML(event.data[0]);
 
 				if (errorXml && errorXml.hasOwnProperty('error')) {
@@ -273,13 +273,13 @@
 					// Send notification to Google Analytics
 					if (_urchinNumber) {
 						var ga:GoogleAnalyticsTracker = GoogleAnalyticsTracker.getInstance();
-						ga.init("", "", this, "KMC_ANDROMEDA/Login", _urchinNumber, "AS3", Application.application.parameters.gaDebug == "true" ? true : false);
+						ga.init("", "", this, "BMC_ANDROMEDA/Login", _urchinNumber, "AS3", Application.application.parameters.gaDebug == "true" ? true : false);
 						ga.sendToGA(GoogleAnalyticsConsts.LOGIN);
 					}
-					// Send notification to Kaltura
+					// Send notification to Borhan
 					var ka:KAnalyticsTracker = KAnalyticsTracker.getInstance();
 					ka.init(_kc, "Login", VERSION, "");
-					ka.sendEvent(KalturaStatsKmcEventType.LOGIN, "pagingInEntryTable>Manage");
+					ka.sendEvent(BorhanStatsBmcEventType.LOGIN, "pagingInEntryTable>Manage");
 
 					loginF(event.data[1].partnerId, event.data[1].partnerId + "00", event.data[1].id, event.data[0], event.data[1].screenName, event.data[1].email);
 				}
@@ -289,7 +289,7 @@
 			/**
 			 * If we failed to Login Alert to the user the Server Messege
 			 * */
-			private function onLoginFault(event:KalturaEvent):void {
+			private function onLoginFault(event:BorhanEvent):void {
 				Alert.show(event.error.errorMsg, resourceManager.getString('login', 'errorOccurred'));
 			}
 
@@ -314,8 +314,8 @@
 				_relevantPwd = tf1.text;
 				// post request
 				var ausip:AdminUserSetInitialPassword = new AdminUserSetInitialPassword(_hashKey, tf1.text);
-				ausip.addEventListener(KalturaEvent.COMPLETE, onSetInitialResult);
-				ausip.addEventListener(KalturaEvent.FAILED, faultHandlerV3_a);
+				ausip.addEventListener(BorhanEvent.COMPLETE, onSetInitialResult);
+				ausip.addEventListener(BorhanEvent.FAILED, faultHandlerV3_a);
 				_kc.post(ausip);
 			}
 
@@ -366,8 +366,8 @@
 
 				_relevantEmail = tf.text;
 				var resetPwd:UserResetPassword = new UserResetPassword(_relevantEmail);
-				resetPwd.addEventListener(KalturaEvent.COMPLETE, onResetPassResult);
-				resetPwd.addEventListener(KalturaEvent.FAILED, faultHandlerV3_a);
+				resetPwd.addEventListener(BorhanEvent.COMPLETE, onResetPassResult);
+				resetPwd.addEventListener(BorhanEvent.FAILED, faultHandlerV3_a);
 				_kc.post(resetPwd);
 			}
 
@@ -396,8 +396,8 @@
 				_relevantEmail = email.text;
 				_relevantPwd = pwd3.text;
 				var auup:AdminUserUpdatePassword = new AdminUserUpdatePassword(email.text, pwd5.text, '', pwd3.text);
-				auup.addEventListener(KalturaEvent.COMPLETE, onUpdateResult);
-				auup.addEventListener(KalturaEvent.FAILED, faultHandlerV3_a);
+				auup.addEventListener(BorhanEvent.COMPLETE, onUpdateResult);
+				auup.addEventListener(BorhanEvent.FAILED, faultHandlerV3_a);
 				_kc.post(auup);
 			}
 
@@ -405,7 +405,7 @@
 			/**
 			 * login using saved data
 			 * */
-			protected function onUpdateResult(event:KalturaEvent):void {
+			protected function onUpdateResult(event:BorhanEvent):void {
 				// we assume the user entered his email when he first logged in, 
 				// before being asked to update pwd, and use the pwd sent in update.
 				adminLogin(_relevantEmail, _relevantPwd);
@@ -416,13 +416,13 @@
 			 * set intial password successfull </br>
 			 * show normal login panel
 			 * */
-			protected function onSetInitialResult(event:KalturaEvent):void {
+			protected function onSetInitialResult(event:BorhanEvent):void {
 				Alert.show(ResourceManager.getInstance().getString('login', 'pleaseLogin'));
 				panels.selectedSide = "Front";
 			}
 
 
-			private function faultHandlerV3_a(event:KalturaEvent):void {
+			private function faultHandlerV3_a(event:BorhanEvent):void {
 				faultHandlerV3(event, parameters.displayErrorFromServer == "true");
 			}
 
@@ -430,7 +430,7 @@
 			 * General fault handler for API_v3 <br>
 			 * shows a message from locale, or server.
 			 * */
-			private function faultHandlerV3(event:KalturaEvent, displayErrorFromServer:Boolean = false):void {
+			private function faultHandlerV3(event:BorhanEvent, displayErrorFromServer:Boolean = false):void {
 				var s:String = ResourceManager.getInstance().getString('login', event.error.errorCode);
 				if (s == null || displayErrorFromServer) {
 					s = event.error.errorMsg;
@@ -453,7 +453,7 @@
 			/**
 			 * tell the user if password reset went ok or not.
 			 * */
-			private function onResetPassResult(event:KalturaEvent):void {
+			private function onResetPassResult(event:BorhanEvent):void {
 				if (event.error!= null)
 					Alert.show(event.error.errorMsg, resourceManager.getString('login', 'errorOccurred'));
 				else

@@ -1,10 +1,10 @@
-package com.kaltura.vo
+package com.borhan.vo
 {
-	import com.kaltura.vo.KalturaBatchJobFilter;
+	import com.borhan.vo.BorhanBatchJobFilter;
 
-	import com.kaltura.vo.BaseFlexVo;
+	import com.borhan.vo.BaseFlexVo;
 	[Bindable]
-	public dynamic class KalturaWorkerQueueFilter extends BaseFlexVo
+	public dynamic class BorhanWorkerQueueFilter extends BaseFlexVo
 	{
 		public var schedulerId : int = int.MIN_VALUE;
 
@@ -12,7 +12,7 @@ package com.kaltura.vo
 
 		public var jobType : int = int.MIN_VALUE;
 
-		public var filter : KalturaBatchJobFilter;
+		public var filter : BorhanBatchJobFilter;
 
 public function getUpdateableParamKeys():Array
 		{

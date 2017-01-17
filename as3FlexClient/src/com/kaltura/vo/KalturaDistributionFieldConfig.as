@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Borhan Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Borhan Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,11 +25,11 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.vo
+package com.borhan.vo
 {
-	import com.kaltura.vo.BaseFlexVo;
+	import com.borhan.vo.BaseFlexVo;
 	[Bindable]
-	public dynamic class KalturaDistributionFieldConfig extends BaseFlexVo
+	public dynamic class BorhanDistributionFieldConfig extends BaseFlexVo
 	{
 		/** 
 		* Field enum class should be returned by the provider's getFieldEnumClass function.		* */ 
@@ -40,8 +40,8 @@ package com.kaltura.vo
 		public var userFriendlyFieldName : String = null;
 
 		/** 
-		* An XSLT string that extracts the right value from the Kaltura entry MRSS XML.
-The value of the current connector field will be the one that is returned from transforming the Kaltura entry MRSS XML using this XSLT string.		* */ 
+		* An XSLT string that extracts the right value from the Borhan entry MRSS XML.
+The value of the current connector field will be the one that is returned from transforming the Borhan entry MRSS XML using this XSLT string.		* */ 
 		public var entryMrssXslt : String = null;
 
 		/** 

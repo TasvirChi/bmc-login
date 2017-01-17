@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Borhan Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Borhan Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,15 +25,15 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.delegates {
+package com.borhan.delegates {
 
-	import com.kaltura.config.IKalturaConfig;
-	import com.kaltura.config.KalturaConfig;
-	import com.kaltura.core.KClassFactory;
-	import com.kaltura.errors.KalturaError;
-	import com.kaltura.events.KalturaEvent;
-	import com.kaltura.net.KalturaCall;
-	import com.kaltura.encryption.MD5;
+	import com.borhan.config.IBorhanConfig;
+	import com.borhan.config.BorhanConfig;
+	import com.borhan.core.KClassFactory;
+	import com.borhan.errors.BorhanError;
+	import com.borhan.events.BorhanEvent;
+	import com.borhan.net.BorhanCall;
+	import com.borhan.encryption.MD5;
 
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
@@ -50,7 +50,7 @@ package com.kaltura.delegates {
 	import flash.utils.Timer;
 	import flash.utils.getDefinitionByName;
 
-	public class WebDelegateBase extends EventDispatcher implements IKalturaCallDelegate {
+	public class WebDelegateBase extends EventDispatcher implements IBorhanCallDelegate {
 
 		public static var CONNECT_TIME:int = 60000; //60 secs
 		public static var LOAD_TIME:int = 60000; //60 secs
@@ -58,35 +58,35 @@ package com.kaltura.delegates {
 		protected var connectTimer:Timer;
 		protected var loadTimer:Timer;
 
-		protected var _call:KalturaCall;
-		protected var _config:KalturaConfig;
+		protected var _call:BorhanCall;
+		protected var _config:BorhanConfig;
 
 		protected var loader:URLLoader;
 		protected var fileRef:FileReference;
 
 
 		//Setters & getters 
-		public function get call():KalturaCall {
+		public function get call():BorhanCall {
 			return _call;
 		}
 
 
-		public function set call(newVal:KalturaCall):void {
+		public function set call(newVal:BorhanCall):void {
 			_call = newVal;
 		}
 
 
-		public function get config():IKalturaConfig {
+		public function get config():IBorhanConfig {
 			return _config;
 		}
 
 
-		public function set config(newVal:IKalturaConfig):void {
-			_config = newVal as KalturaConfig;
+		public function set config(newVal:IBorhanConfig):void {
+			_config = newVal as BorhanConfig;
 		}
 
 
-		public function WebDelegateBase(call:KalturaCall = null, config:KalturaConfig = null) {
+		public function WebDelegateBase(call:BorhanCall = null, config:BorhanConfig = null) {
 			this.call = call;
 			this.config = config;
 			if (!call)
@@ -117,11 +117,11 @@ package com.kaltura.delegates {
 
 
 		protected function onConnectTimeout(event:TimerEvent):void {
-			var kError:KalturaError = new KalturaError();
+			var kError:BorhanError = new BorhanError();
 			//kError.errorCode =
-			kError.errorMsg = "Connection Timeout: " + CONNECT_TIME / 1000 + " sec with no post command from kaltura client.";
+			kError.errorMsg = "Connection Timeout: " + CONNECT_TIME / 1000 + " sec with no post command from borhan client.";
 			_call.handleError(kError);
-			dispatchEvent(new KalturaEvent(KalturaEvent.FAILED, false, false, false, null, kError));
+			dispatchEvent(new BorhanEvent(BorhanEvent.FAILED, false, false, false, null, kError));
 
 			loadTimer.stop();
 			close();
@@ -133,10 +133,10 @@ package com.kaltura.delegates {
 
 			close();
 
-			var kError:KalturaError = new KalturaError();
+			var kError:BorhanError = new BorhanError();
 			kError.errorMsg = "Post Timeout: " + LOAD_TIME / 1000 + " sec with no post result.";
 			_call.handleError(kError);
-			dispatchEvent(new KalturaEvent(KalturaEvent.FAILED, false, false, false, null, kError));
+			dispatchEvent(new BorhanEvent(BorhanEvent.FAILED, false, false, false, null, kError));
 		}
 
 
@@ -183,7 +183,7 @@ package com.kaltura.delegates {
 		}
 
 
-		protected function getMD5Checksum(call:KalturaCall):String {
+		protected function getMD5Checksum(call:BorhanCall):String {
 			var props:Array = new Array();
 			for each (var prop:String in call.args)
 				props.push(prop);
@@ -266,7 +266,7 @@ package com.kaltura.delegates {
 				handleResult(XML(event.target.data));
 			}
 			catch (e:Error) {
-				var kErr:KalturaError = new KalturaError();
+				var kErr:BorhanError = new BorhanError();
 				kErr.errorCode = String(e.errorID);
 				kErr.errorMsg = e.message;
 				_call.handleError(kErr);
@@ -276,7 +276,7 @@ package com.kaltura.delegates {
 
 		protected function onError(event:ErrorEvent):void {
 			clean();
-			var kError:KalturaError = createKalturaError(event, loader.data);
+			var kError:BorhanError = createBorhanError(event, loader.data);
 
 			//If we have no error message set it from the event
 			if (kError && (!kError.errorMsg || kError.errorMsg == "")) 
@@ -284,7 +284,7 @@ package com.kaltura.delegates {
 
 			call.handleError(kError);
 
-			dispatchEvent(new KalturaEvent(KalturaEvent.FAILED, false, false, false, null, kError));
+			dispatchEvent(new BorhanEvent(BorhanEvent.FAILED, false, false, false, null, kError));
 		}
 
 
@@ -295,7 +295,7 @@ package com.kaltura.delegates {
 		protected function handleResult(result:XML):void {
 			clean();
 
-			var error:KalturaError = validateKalturaResponse(result);
+			var error:BorhanError = validateBorhanResponse(result);
 
 			if (error == null) {
 				var digestedResult:Object = parse(result);
@@ -338,7 +338,7 @@ package com.kaltura.delegates {
 			//by defualt create the response object
 			var cls:Class;
 			try {
-				cls = getDefinitionByName('com.kaltura.vo.' + result.result.objectType) as Class;
+				cls = getDefinitionByName('com.borhan.vo.' + result.result.objectType) as Class;
 			}
 			catch (e:Error) {
 				cls = Object;
@@ -349,20 +349,20 @@ package com.kaltura.delegates {
 
 
 		/**
-		* If the result string holds an error, return a KalturaError object with
+		* If the result string holds an error, return a BorhanError object with
 		 * relevant values. <br/>
 		* Overide this to create validation object and fill it.
 		* @param result  the string returned from the server.
 		* @return  matching error object
 		 */
-		protected function validateKalturaResponse(result:String):KalturaError {
-			var kError:KalturaError = null;
+		protected function validateBorhanResponse(result:String):BorhanError {
+			var kError:BorhanError = null;
 			var xml:XML = XML(result);
 			if (xml.result.hasOwnProperty('error')) {
-				kError = new KalturaError();
+				kError = new BorhanError();
 				kError.errorCode = String(xml.result.error.code);
 				kError.errorMsg = xml.result.error.message;
-				dispatchEvent(new KalturaEvent(KalturaEvent.FAILED, false, false, false, null, kError));
+				dispatchEvent(new BorhanEvent(BorhanEvent.FAILED, false, false, false, null, kError));
 			}
 
 			return kError;
@@ -370,18 +370,18 @@ package com.kaltura.delegates {
 
 
 		//Overide this to create error object and fill it
-		protected function createKalturaError(event:ErrorEvent, loaderData:*):KalturaError {
-			var ke:KalturaError = new KalturaError();
+		protected function createBorhanError(event:ErrorEvent, loaderData:*):BorhanError {
+			var ke:BorhanError = new BorhanError();
 			return ke;
 		}
 
 
 		/**
 		* create the url that is used for serve actions
-		* @param call    the KalturaCall that defines the required parameters
+		* @param call    the BorhanCall that defines the required parameters
 		 * @return URLRequest with relevant parameters
 		* */
-		public function getServeUrl(call:KalturaCall):URLRequest {
+		public function getServeUrl(call:BorhanCall):URLRequest {
 			var url:String = _config.protocol + _config.domain + "/" + _config.srvUrl + "?service=" + call.service + "&action=" + call.action;
 			for (var key:String in call.args) {
 				url += "&" + key + "=" + call.args[key];

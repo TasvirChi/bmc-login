@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Borhan Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Borhan Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,27 +25,27 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.commands.stats
+package com.borhan.commands.stats
 {
-	import com.kaltura.vo.KalturaStatsKmcEvent;
-	import com.kaltura.delegates.stats.StatsKmcCollectDelegate;
-	import com.kaltura.net.KalturaCall;
+	import com.borhan.vo.BorhanStatsBmcEvent;
+	import com.borhan.delegates.stats.StatsBmcCollectDelegate;
+	import com.borhan.net.BorhanCall;
 
-	public class StatsKmcCollect extends KalturaCall
+	public class StatsBmcCollect extends BorhanCall
 	{
 		public var filterFields : String;
 		/**
-		 * @param kmcEvent KalturaStatsKmcEvent
+		 * @param bmcEvent BorhanStatsBmcEvent
 		 **/
-		public function StatsKmcCollect( kmcEvent : KalturaStatsKmcEvent )
+		public function StatsBmcCollect( bmcEvent : BorhanStatsBmcEvent )
 		{
 			service= 'stats';
-			action= 'kmcCollect';
+			action= 'bmcCollect';
 
 			var keyArr : Array = new Array();
 			var valueArr : Array = new Array();
 			var keyValArr : Array = new Array();
- 			keyValArr = kalturaObject2Arrays(kmcEvent, 'kmcEvent');
+ 			keyValArr = borhanObject2Arrays(bmcEvent, 'bmcEvent');
 			keyArr = keyArr.concat(keyValArr[0]);
 			valueArr = valueArr.concat(keyValArr[1]);
 			applySchema(keyArr, valueArr);
@@ -54,7 +54,7 @@ package com.kaltura.commands.stats
 		override public function execute() : void
 		{
 			setRequestArgument('filterFields', filterFields);
-			delegate = new StatsKmcCollectDelegate( this , config );
+			delegate = new StatsBmcCollectDelegate( this , config );
 		}
 	}
 }

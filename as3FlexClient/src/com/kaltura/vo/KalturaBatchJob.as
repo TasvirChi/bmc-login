@@ -1,11 +1,11 @@
-package com.kaltura.vo
+package com.borhan.vo
 {
-	import com.kaltura.vo.KalturaJobData;
+	import com.borhan.vo.BorhanJobData;
 
-	import com.kaltura.vo.KalturaBaseJob;
+	import com.borhan.vo.BorhanBaseJob;
 
 	[Bindable]
-	public dynamic class KalturaBatchJob extends KalturaBaseJob
+	public dynamic class BorhanBatchJob extends BorhanBaseJob
 	{
 		public var entryId : String;
 
@@ -17,7 +17,7 @@ package com.kaltura.vo
 
 		public var onStressDivertTo : int = int.MIN_VALUE;
 
-		public var data : KalturaJobData;
+		public var data : BorhanJobData;
 
 		public var status : int = int.MIN_VALUE;
 

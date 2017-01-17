@@ -1,12 +1,12 @@
-package com.kaltura.delegates.metadataBatch
+package com.borhan.delegates.metadataBatch
 {
 	import flash.utils.getDefinitionByName;
-	import com.kaltura.config.KalturaConfig;
-	import com.kaltura.net.KalturaCall;
-	import com.kaltura.delegates.WebDelegateBase;
+	import com.borhan.config.BorhanConfig;
+	import com.borhan.net.BorhanCall;
+	import com.borhan.delegates.WebDelegateBase;
 	public class MetadataBatchUpdateExclusiveConvertJobDelegate extends WebDelegateBase
 	{
-		public function MetadataBatchUpdateExclusiveConvertJobDelegate(call:KalturaCall, config:KalturaConfig)
+		public function MetadataBatchUpdateExclusiveConvertJobDelegate(call:BorhanCall, config:BorhanConfig)
 		{
 			super(call, config);
 		}

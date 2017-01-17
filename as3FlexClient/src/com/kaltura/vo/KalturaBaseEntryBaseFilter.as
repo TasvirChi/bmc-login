@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Borhan Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Borhan Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,12 +25,12 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.vo
+package com.borhan.vo
 {
-	import com.kaltura.vo.KalturaFilter;
+	import com.borhan.vo.BorhanFilter;
 
 	[Bindable]
-	public dynamic class KalturaBaseEntryBaseFilter extends KalturaFilter
+	public dynamic class BorhanBaseEntryBaseFilter extends BorhanFilter
 	{
 		/** 
 		* This filter should be in use for retrieving only a specific entry (identified by its entryId).		* */ 
@@ -61,7 +61,7 @@ package com.kaltura.vo
 		public var nameEqual : String = null;
 
 		/** 
-		* This filter should be in use for retrieving only entries which were uploaded by/assigned to users of a specific Kaltura Partner (identified by Partner ID).		* */ 
+		* This filter should be in use for retrieving only entries which were uploaded by/assigned to users of a specific Borhan Partner (identified by Partner ID).		* */ 
 		public var partnerIdEqual : int = int.MIN_VALUE;
 
 		/** 
@@ -117,19 +117,19 @@ package com.kaltura.vo
 		public var categoriesIdsMatchOr : String = null;
 
 		/** 
-		* This filter should be in use for retrieving only entries, at a specific {@link ?object=KalturaEntryStatus KalturaEntryStatus}.		* */ 
+		* This filter should be in use for retrieving only entries, at a specific {@link ?object=BorhanEntryStatus BorhanEntryStatus}.		* */ 
 		public var statusEqual : String = null;
 
 		/** 
-		* This filter should be in use for retrieving only entries, not at a specific {@link ?object=KalturaEntryStatus KalturaEntryStatus}.		* */ 
+		* This filter should be in use for retrieving only entries, not at a specific {@link ?object=BorhanEntryStatus BorhanEntryStatus}.		* */ 
 		public var statusNotEqual : String = null;
 
 		/** 
-		* This filter should be in use for retrieving only entries, at few specific {@link ?object=KalturaEntryStatus KalturaEntryStatus} (comma separated).		* */ 
+		* This filter should be in use for retrieving only entries, at few specific {@link ?object=BorhanEntryStatus BorhanEntryStatus} (comma separated).		* */ 
 		public var statusIn : String = null;
 
 		/** 
-		* This filter should be in use for retrieving only entries, not at few specific {@link ?object=KalturaEntryStatus KalturaEntryStatus} (comma separated).		* */ 
+		* This filter should be in use for retrieving only entries, not at few specific {@link ?object=BorhanEntryStatus BorhanEntryStatus} (comma separated).		* */ 
 		public var statusNotIn : String = null;
 
 		/** 
@@ -153,15 +153,15 @@ package com.kaltura.vo
 		public var typeEqual : String = null;
 
 		/** 
-		* This filter should be in use for retrieving entries of few {@link ?object=KalturaEntryType KalturaEntryType} (string should include a comma separated list of {@link ?object=KalturaEntryType KalturaEntryType} enumerated parameters).		* */ 
+		* This filter should be in use for retrieving entries of few {@link ?object=BorhanEntryType BorhanEntryType} (string should include a comma separated list of {@link ?object=BorhanEntryType BorhanEntryType} enumerated parameters).		* */ 
 		public var typeIn : String = null;
 
 		/** 
-		* This filter parameter should be in use for retrieving only entries which were created at Kaltura system after a specific time/date (standard timestamp format).		* */ 
+		* This filter parameter should be in use for retrieving only entries which were created at Borhan system after a specific time/date (standard timestamp format).		* */ 
 		public var createdAtGreaterThanOrEqual : int = int.MIN_VALUE;
 
 		/** 
-		* This filter parameter should be in use for retrieving only entries which were created at Kaltura system before a specific time/date (standard timestamp format).		* */ 
+		* This filter parameter should be in use for retrieving only entries which were created at Borhan system before a specific time/date (standard timestamp format).		* */ 
 		public var createdAtLessThanOrEqual : int = int.MIN_VALUE;
 
 		/** 

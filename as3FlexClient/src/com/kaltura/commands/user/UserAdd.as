@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Borhan Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Borhan Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,19 +25,19 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.commands.user
+package com.borhan.commands.user
 {
-	import com.kaltura.vo.KalturaUser;
-	import com.kaltura.delegates.user.UserAddDelegate;
-	import com.kaltura.net.KalturaCall;
+	import com.borhan.vo.BorhanUser;
+	import com.borhan.delegates.user.UserAddDelegate;
+	import com.borhan.net.BorhanCall;
 
-	public class UserAdd extends KalturaCall
+	public class UserAdd extends BorhanCall
 	{
 		public var filterFields : String;
 		/**
-		 * @param user KalturaUser
+		 * @param user BorhanUser
 		 **/
-		public function UserAdd( user : KalturaUser )
+		public function UserAdd( user : BorhanUser )
 		{
 			service= 'user';
 			action= 'add';
@@ -45,7 +45,7 @@ package com.kaltura.commands.user
 			var keyArr : Array = new Array();
 			var valueArr : Array = new Array();
 			var keyValArr : Array = new Array();
- 			keyValArr = kalturaObject2Arrays(user, 'user');
+ 			keyValArr = borhanObject2Arrays(user, 'user');
 			keyArr = keyArr.concat(keyValArr[0]);
 			valueArr = valueArr.concat(keyValArr[1]);
 			applySchema(keyArr, valueArr);
