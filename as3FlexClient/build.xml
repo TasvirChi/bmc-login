@@ -10,7 +10,7 @@
 	<target name="lib" depends="flex-extract-classes">
 		<echo>Compiling ${output.file}</echo>
 		<echo>${basedir}/src</echo>
-        <compc output="${dir.kaltura.bin}/${output.file}" 
+        <compc output="${dir.borhan.bin}/${output.file}" 
 			   include-classes="${include.classes}" 
 			   debug="${flex.compile.debug}">
 			
@@ -21,7 +21,7 @@
 	
     <target name="clean">
         <delete>
-            <fileset dir="${dir.kaltura.bin}" includes="${output.file}"/>
+            <fileset dir="${dir.borhan.bin}" includes="${output.file}"/>
         </delete>
     </target>	
 </project>

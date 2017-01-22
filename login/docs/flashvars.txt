@@ -1,4 +1,4 @@
-host, ie www.kaltura.com
+host, ie www.borhan.com
 srvurl, ie api_v3/index.php
 urchinNumber, Google Analytics urchin number
 loginF, name of JS function to trigger after login
